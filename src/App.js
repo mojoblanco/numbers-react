@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [ number, setNumber ] = useState(0);
+  const [ type, setType ] = useState("");
+
   return (
     <div className="App">
       <h1 className="title">Random number lookup</h1>
@@ -15,14 +18,25 @@ function App() {
           <div className="card-body">       
             <div className="form-group">
               <label>Select type</label>
-              <select className="form-control" id="exampleSelect1">
-                <option>1</option>
+              <select 
+                className="form-control" 
+                id="exampleSelect1"
+                value={type} 
+                onChange={e => setType(e.target.value)}
+                > 
+                <option value="">-- Select type --</option>
+                <option value="math">Math</option>
+                <option value="trivia">Trivia</option>
               </select>
             </div>
 
             <div className="form-group">
               <label>Enter number</label>
-              <input type="text" className="form-control"/>
+              <input 
+                type="text" 
+                className="form-control"
+                value={number} 
+                onChange={e => setNumber(e.target.value)}/>
             </div>
           </div>
 
@@ -35,7 +49,7 @@ function App() {
       <div className="card border-light mb-3">
         <div className="card-header">Result</div>
         <div className="card-body">
-          <h4 className="card-title">Type</h4>
+          <h4 className="card-title">{ type }</h4>
           <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's co.ntent</p>
         </div>
       </div>
