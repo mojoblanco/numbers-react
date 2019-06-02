@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
 import './App.css';
+import ResultView from './components/ResultView';
 
 function App() {
   const [ number, setNumber ] = useState(0);
   const [ type, setType ] = useState("");
   const [ result, setResult ] = useState({});
-
+  const [ loaded, setLoaded ] = useState(false);
+ 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    setLoaded(false);
     
     fetch(`http://numbersapi.com/${number}/${type}?json`)
       .then(response => response.json())
-      .then(data => setResult(data));
+      .then(data =>  {
+        setResult(data);
+        setLoaded(true);
+      });
+  }
+
+  let resultView;
+
+  if (loaded) {
+    resultView = <ResultView result={result} /> 
+  } else {
+    resultView = null;
   }
 
   return (
@@ -54,16 +68,8 @@ function App() {
           </div>
         </div>
       </form>
-
-      <div className="card border-light mb-3">
-        <div className="card-header">Result</div>
-        <div className="card-body">
-          <h4 className="card-title">{ result.type }</h4>
-          <p className="card-text">
-            { result.text }
-          </p>
-        </div>
-      </div>
+ 
+      {resultView}
     </div>
   );
 }
